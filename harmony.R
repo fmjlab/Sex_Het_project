@@ -321,8 +321,7 @@ plot_grid(p1,p2)
 
 # Run Harmony
 options(repr.plot.height = 2.5, repr.plot.width = 6)
-pancreas.combined.h <- pancreas.combined.h %>% 
-  RunHarmony("ancestry_sex", plot_convergence = TRUE)
+pancreas.combined.h <- RunHarmony(pancreas.combined.h, c("sample"), plot_convergence = TRUE)
 
 harmony_embeddings <- Embeddings(pancreas.combined.h, 'harmony')
 harmony_embeddings[1:5, 1:5]
@@ -331,6 +330,9 @@ options(repr.plot.height = 5, repr.plot.width = 12)
 p1 <- DimPlot(object = pancreas.combined.h, reduction = "harmony", pt.size = .1, group.by = "ancestry_sex")
 p2 <- VlnPlot(object = pancreas.combined.h, features = "harmony_1", group.by = "ancestry_sex", pt.size = .1)
 plot_grid(p1,p2)
+
+pancreas.combined.h <- RunUMAP(pancreas.combined.h, reduction = "harmony", dims = 1:30)
+DimPlot(object = pancreas.combined.h, reduction = "umap", pt.size = .1, group.by = "ancestry_sex")
 
 # UNCOMPILED CODE BEYOND THIS POINT ####
 
